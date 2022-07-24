@@ -6,7 +6,6 @@ html {
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
-  background: rgba(0, 0, 0, 0);
   font-family: "Open Sans", sans-serif;
 }
 
@@ -50,22 +49,29 @@ html {
   gap: 7px;
   font-size: 12px;
   font-weight: 800;
-  border-radius: 5px;
+  border-radius: 10px;
   background: var(--slate);
+  border:solid 1px #cbd5e1;
   cursor: pointer;
-  transition: background 0.5s;
+  transition: border 0.5s;
   outline: none;
-  border: none;
 }
 
 .side_nav button:hover {
-  background: #fff;
+  border-color: var(--primary);
 }
 
 .side_nav button svg {
   height: 1.25rem;
   width: 1.25rem;
-  fill:#334155;
+  fill: #334155;
+}
+
+.side_nav .active svg{
+  fill: var(--primary);
+}
+.side_nav .active{
+  border-color: var(--primary);
 }
 
 /**======= Main Body ===========*/
