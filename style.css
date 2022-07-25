@@ -126,8 +126,16 @@ body {
   width: 100%;
   border-radius:30px;
   background: #fff;
+   color:var(--slate-800);
   border: solid 1px var(--slate-200);
   outline:none;
+  padding: 15px;
+  transition: border 1s;
 }
 
-.collectionSearchBar label input
+.collectionSearchBar label input::placeholder{
+  color:var(--slate-200)
+}
+.collectionSearchBar label input:focus{
+  border-color:var(--primary);
+}
