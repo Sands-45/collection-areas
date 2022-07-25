@@ -139,8 +139,3 @@ body {
 .collectionSearchBar label input:focus{
   border-color:var(--primary);
 }
-
-/*Adding comment =====================*/
-.collectionSearchBar label input:focus{
-  border-color:var(--primary);
-}
