@@ -7,5 +7,8 @@
     "default_popup": "index.html",
     "permissions": ["storage", "activeTab", "scripting"],
     "default_icon": "location.png"
+  },
+  "background": {
+    "service_worker": "background.js"
   }
 }

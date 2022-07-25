@@ -9,18 +9,29 @@ html {
   font-family: "Open Sans", sans-serif;
 }
 
+body {
+  background: #000;
+  width: fit-content;
+  height: fit-content;
+  background: rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
 :root {
   --primary: #219ebc;
-  --slate: #f1f5f9;
+  --slate-50: #f1f5f9;
+  --slate-800:#1e293b;
+  --slate-200:#cbd5e1;
   --text-slate: #1e293b;
 }
 
 .container {
   width: 48rem;
-  height: 37rem;
-  background: var(--slate);
+  height: 35rem;
+  background: var(--slate-50);
   display: flex;
   justify-content: space-between;
+  border: #1e293b5e solid 1px;
 }
 
 /**======= Side navigation ===========*/
@@ -50,8 +61,8 @@ html {
   font-size: 12px;
   font-weight: 800;
   border-radius: 10px;
-  background: var(--slate);
-  border:solid 1px #cbd5e1;
+  background: var(--slate-50);
+  border: solid 1px var(--slate-200);
   cursor: pointer;
   transition: border 0.5s;
   outline: none;
@@ -64,13 +75,13 @@ html {
 .side_nav button svg {
   height: 1.25rem;
   width: 1.25rem;
-  fill: #334155;
+  stroke: var(--slate-800);
 }
 
-.side_nav .active svg{
-  fill: var(--primary);
+.side_nav .active svg {
+  stroke: var(--primary);
 }
-.side_nav .active{
+.side_nav .active {
   border-color: var(--primary);
 }
 
@@ -80,3 +91,43 @@ html {
   height: 100%;
   width: calc(100% - 4.5rem);
 }
+
+/*** ============== Tab One ====================*/
+#tabOne {
+  width: 100%;
+  height: 100%;
+  padding-top: 2.5rem;
+}
+
+#tabOne h1 {
+  width: 100%;
+  text-align: center;
+  font-size: 1.8rem;
+  color: var(--slate-800);
+}
+
+.collectionSearchBar {
+  height: 2.5rem;
+  width: 80%;
+  margin:1rem auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.collectionSearchBar label{
+  height: 100%;
+  width: 70%;
+  overflow: hidden;
+}
+
+.collectionSearchBar label input{
+  height: 100%;
+  width: 100%;
+  border-radius:30px;
+  background: #fff;
+  border: solid 1px var(--slate-200);
+  outline:none;
+}
+
+.collectionSearchBar label input
