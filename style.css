@@ -102,7 +102,7 @@ body {
 #tabOne h1 {
   width: 100%;
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: var(--slate-800);
 }
 
@@ -140,7 +140,16 @@ body {
   border-color:var(--primary);
 }
 
-/*Adding comment =====================*/
-.collectionSearchBar label input:focus{
-  border-color:var(--primary);
+/*============ New Contact Button ============*/
+#newStore{
+  padding: 4px 10px 4px 10px;
+  background: var(--primary);
+  color: var(--slate-50);
+  border: none;
+  border-radius: 30px;
+  height: 100%;
+  width: 25%;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
 }
