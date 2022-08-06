@@ -60,7 +60,7 @@ body {
   gap: 7px;
   font-size: 12px;
   font-weight: 800;
-  border-radius: 10px;
+  border-radius: 7px;
   background: var(--slate-50);
   border: solid 1px var(--slate-200);
   cursor: pointer;
@@ -92,64 +92,3 @@ body {
   width: calc(100% - 4.5rem);
 }
 
-/*** ============== Tab One ====================*/
-#tabOne {
-  width: 100%;
-  height: 100%;
-  padding-top: 2.5rem;
-}
-
-#tabOne h1 {
-  width: 100%;
-  text-align: center;
-  font-size: 1.5rem;
-  color: var(--slate-800);
-}
-
-.collectionSearchBar {
-  height: 2.5rem;
-  width: 80%;
-  margin:1rem auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.collectionSearchBar label{
-  height: 100%;
-  width: 70%;
-  overflow: hidden;
-}
-
-.collectionSearchBar label input{
-  height: 100%;
-  width: 100%;
-  border-radius:30px;
-  background: #fff;
-   color:var(--slate-800);
-  border: solid 1px var(--slate-200);
-  outline:none;
-  padding: 15px;
-  transition: border 1s;
-}
-
-.collectionSearchBar label input::placeholder{
-  color:var(--slate-200)
-}
-.collectionSearchBar label input:focus{
-  border-color:var(--primary);
-}
-
-/*============ New Contact Button ============*/
-#newStore{
-  padding: 4px 10px 4px 10px;
-  background: var(--primary);
-  color: var(--slate-50);
-  border: none;
-  border-radius: 30px;
-  height: 100%;
-  width: 25%;
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-}

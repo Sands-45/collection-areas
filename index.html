@@ -2,7 +2,8 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./Styles/style.css">
+  <link rel="stylesheet" href="./Styles/collection.css">
 </head>
 
 <body>
@@ -51,16 +52,81 @@
 
     <!---============= Main Container ==============-->
     <div class="body_container">
-      <!---============= Store Details ===================-->
+      <!---============= Tab One ===================-->
       <div id="tabOne">
-        <h1>Restaurants details</h1>
         <div class="collectionSearchBar">
           <label for="searchCollection">
             <input type="search" name="searchCollection" id="searchCollection" placeholder="Type here ..." />
           </label>
           <button id="newStore">Add new</button>
         </div>
+
+        <!---=========== Store List ==========================-->
+        <div id="store_listContainer">
+          <div class="storeList">
+            <div class="store_details">
+              <div>Restaurant :</div>
+              <div>&nbsp;Debonairs Pizza Zevenwatch (Halaal)</div>
+            </div>
+            <div class="store_details">
+              <div>Extesion :</div>
+              <div>&nbsp;889/9000/875</div>
+            </div>
+            <div class="store_details">
+              <div>Collection Area :</div>
+              <div>&nbsp;Western Cape > Kuilsriver</div>
+            </div>
+            <div class="store_details">
+              <div>Delivery Time :</div>
+              <div>&nbsp;45 minutes</div>
+            </div>
+            <div class="store_details">
+              <div>Collection Time :</div>
+              <div>&nbsp;15 minutes</div>
+            </div>
+            <div class="list_options">
+              <button class="status_btn">Online</button>
+              <button>Edit</button>
+              <button>View</button>
+            </div>
+          </div>
+          <div class="storeList">
+            <div class="store_details">
+              <div>Restaurant :</div>
+              <div>&nbsp;Debonairs Pizza Zevenwatch (Halaal)</div>
+            </div>
+            <div class="store_details">
+              <div>Extesion :</div>
+              <div>&nbsp;889/9000/875</div>
+            </div>
+            <div class="store_details">
+              <div>Collection Area :</div>
+              <div>&nbsp;Western Cape > Kuilsriver</div>
+            </div>
+            <div class="store_details">
+              <div>Delivery Time :</div>
+              <div>&nbsp;45 minutes</div>
+            </div>
+            <div class="store_details">
+              <div>Collection Time :</div>
+              <div>&nbsp;15 minutes</div>
+            </div>
+            <div class="list_options">
+              <button class="status_btn">Online</button>
+              <button>Edit</button>
+              <button>View</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!--========== Pagenation ==================-->
+        <div id="collectionListPagenation">
+          <button id="collectionPrev">Prev</button>
+          <button id="collectionPrev">Next</button>
+        </div>
       </div>
+      <!---============= Tab One ===================-->
     </div>
   </main>
   <script src="./popup.js"></script>

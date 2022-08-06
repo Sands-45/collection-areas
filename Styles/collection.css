@@ -1,0 +1,155 @@
+:root {
+  --primary: #219ebc;
+  --slate-50: #f1f5f9;
+  --slate-800: #1e293b;
+  --slate-200: #cbd5e1;
+  --slate-100: #e0e5ea;
+  --text-slate: #1e293b;
+}
+
+/*** ============== Tab One ====================*/
+#tabOne {
+  width: 100%;
+  height: 100%;
+  padding-top: 3rem;
+}
+
+.collectionSearchBar {
+  height: 2.5rem;
+  width: 90%;
+  margin: 0.5rem auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.collectionSearchBar label {
+  height: 100%;
+  width: 70%;
+  overflow: hidden;
+}
+
+.collectionSearchBar label input {
+  height: 100%;
+  width: 100%;
+  border-radius: 30px;
+  background: #fff;
+  color: var(--slate-800);
+  border: solid 1px var(--slate-200);
+  outline: none;
+  padding: 15px;
+  transition: border 1s;
+}
+
+.collectionSearchBar label input::placeholder {
+  color: var(--slate-200);
+}
+.collectionSearchBar label input:focus {
+  border-color: var(--primary);
+}
+
+/*============ New Contact Button ============*/
+#newStore {
+  padding: 4px 10px 4px 10px;
+  background: var(--primary);
+  color: var(--slate-50);
+  border: none;
+  border-radius: 30px;
+  height: 100%;
+  width: 25%;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/*===  Stores List Styles ====*/
+#store_listContainer {
+  width: 90%;
+  height: fit-content;
+  margin: 3rem auto auto;
+}
+
+.storeList {
+  height: 150px;
+  width: 100%;
+  border-radius: 0.35rem;
+  background: #fff;
+  padding: 15px;
+  display: grid;
+  margin-top: 35px;
+  gap: 5px;
+  position: relative;
+  border: solid 1px var(--slate-100);
+}
+
+
+.store_details {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  border-bottom: solid 1px var(--slate-100);
+}
+
+.store_details:last-child {
+  border-bottom: none;
+}
+
+.list_options {
+  position: absolute;
+  top: -1rem;
+  right: 0;
+  width: 12rem;
+  height: 1.75rem;
+  background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 10px;
+}
+
+.list_options button {
+  height: 80%;
+  width: 3.5rem;
+  background: #fff;
+  border-radius: 0.15rem;
+  border: solid 1px var(--slate-200);
+  background: #fff;
+  font-size: 11px;
+}
+
+.status_btn{
+	background-color:#1dc566 !important;
+	color: #fff;
+}
+
+
+/*===  Pagination ====*/
+#collectionListPagenation {
+  width: 90%;
+  height: 3rem;
+  margin: 1.5rem auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+}
+
+#collectionListPagenation button {
+  height: 2rem;
+  width: 3.5rem;
+  padding: 1px 4px 1px 4px;
+  background: #fff;
+  border: solid 1px var(--slate-200);
+  border-radius: 0.25rem;
+  color: var(--slate-800);
+  transition: border 0.5s;
+  cursor: pointer;
+}
+
+#collectionListPagenation button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
