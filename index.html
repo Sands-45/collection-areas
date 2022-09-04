@@ -4,23 +4,24 @@
 <head>
   <link rel="stylesheet" href="./Styles/style.css">
   <link rel="stylesheet" href="./Styles/collection.css">
+  <link rel="stylesheet" href="./Styles/addresses.css">
 </head>
 
 <body>
   <main class="container">
     <!---============= Side navigation ==============-->
-    <div class="side_nav">
-      <button class="active"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-building-store"
-          width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-          stroke-linecap="round" stroke-linejoin="round">
+    <div id="navContainer" class="side_nav">
+      <button id="tab_one_btn" class="tab_btn active_tab_btn">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-input-search" width="24" height="24"
+          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+          stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-          <line x1="3" y1="21" x2="21" y2="21"></line>
-          <path d="M3 7v1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1h-18l2 -4h14l2 4"></path>
-          <line x1="5" y1="21" x2="5" y2="10.85"></line>
-          <line x1="19" y1="21" x2="19" y2="10.85"></line>
-          <path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4"></path>
-        </svg></button>
-      <button class="">
+          <path d="M19 11v-3a2 2 0 0 0 -2 -2h-12a2 2 0 0 0 -2 2v5a2 2 0 0 0 2 2h5"></path>
+          <circle cx="15.5" cy="15.5" r="2.5"></circle>
+          <path d="M17.5 17.5l2.5 2.5"></path>
+        </svg>
+      </button>
+      <button id="tab_two_btn" class="tab_btn">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-route" width="24" height="24"
           viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
           stroke-linejoin="round">
@@ -30,16 +31,16 @@
           <path d="M12 19h4.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h3.5"></path>
         </svg>
       </button>
-      <button class=""><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-note" width="24"
-          height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-          stroke-linejoin="round">
+      <button id="tab_three_btn" class="tab_btn"><svg xmlns="http://www.w3.org/2000/svg"
+          class="icon icon-tabler icon-tabler-note" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+          stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
           <line x1="13" y1="20" x2="20" y2="13"></line>
           <path d="M13 20v-6a1 1 0 0 1 1 -1h6v-7a2 2 0 0 0 -2 -2h-12a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7"></path>
         </svg></button>
-      <button class=""><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-ticket" width="24"
-          height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-          stroke-linejoin="round">
+      <button id="tab_four_btn" class="tab_btn"><svg xmlns="http://www.w3.org/2000/svg"
+          class="icon icon-tabler icon-tabler-ticket" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+          stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
           <line x1="15" y1="5" x2="15" y2="7"></line>
           <line x1="15" y1="11" x2="15" y2="13"></line>
@@ -53,80 +54,82 @@
     <!---============= Main Container ==============-->
     <div class="body_container">
       <!---============= Tab One ===================-->
-      <div id="tabOne">
+      <div id="tabOne" class="tab">
+        <h1
+          style="text-align: center;margin-top: 0.85rem;margin-bottom: 1.5rem;font-weight:600;font-size: 2.5rem;color:#1e293b;">
+          Quick Search</h1>
         <div class="collectionSearchBar">
-          <label for="searchCollection">
-            <input type="search" name="searchCollection" id="searchCollection" placeholder="Type here ..." />
+          <label for="searchRest">
+            <input type="search" name="searchRest" id="searchRest" placeholder="Type here ..." />
           </label>
-          <button id="newStore">Add new</button>
+          <button id="newStore">Add New</button>
         </div>
 
-        <!---=========== Store List ==========================-->
-        <div id="store_listContainer">
-          <div class="storeList">
-            <div class="store_details">
-              <div>Restaurant :</div>
-              <div>&nbsp;Debonairs Pizza Zevenwatch (Halaal)</div>
+        <!---=========== Searched Results ==========================-->
+        <div id="searchedResults" style="gap:.5rem;">
+          <img style="height: 8rem;margin-top:1.5rem;" src="./images/no_results.png" alt="no_results" id="noresImg">
+          <h2 style="font-size:0.9rem;font-weight:400;color:#64748b;font-style: italic;" id="placeholderText">To search using store's address just include <strong>#</strong>, like <strong>#main street.</strong></h2>
+          <!-- <div
+            style="width: 100%;height:6rem;background:#fff;border-radius: 10px;border: solid 1px #cbd5e1;padding:10px;display:flex;flex-direction:column;justify-content: space-between;"
+            data-storeId="090199" class="shop_results">
+            <div style="width: 100%;height:25%;font-size: 0.75rem;color:#49586d;">- Debonairs Pizza Zevenwatch &rarr; Western
+              Cape &rarr; Kuilsriver</div>
+            <div style="width: 100%;height:25%;font-size: 0.75rem;color:#49586d;">
+              - Extensions : 908 | 800</div>
+            <div style="width: 100%;height:25%;font-size: 0.75rem;color:#49586d;">
+              - Delivery 1 hour | Collection 20 mins</div>
+            <div
+              style="width: 100%;height:25%;font-size: 0.75rem;color:#475569;display:flex;justify-content: space-between;align-items: center;">
+              <div style="width: 100%;height:100%;display:flex;align-items:center;gap:2px;">
+                <div
+                  style="margin-right:5px;padding:1px 5px 1px 5px;height:100%;display:flex;align-items:center;background: rgba(204, 204, 204, 0.462);border-radius: 2px;border:solid 1px rgba(27, 26, 26, 0.341);">
+                  Delivery & Collection</div>
+                <div
+                  style="padding:1px 8px 1px 8px;height:100%;display:flex;align-items:center;gap:2px;;color:rgb(3, 116, 7);background: rgba(20, 185, 27, 0.1);border-left: 3px solid #14B91B;">
+                  Online</div>
+              </div>
+              
+              <div style="width: 100%;height:100%;display:flex;align-items:center;justify-content: end;gap:2px;">
+                <button onclick="()=>{alert('Hi')}" style="margin-right:2px;padding:2px;height:100%;display:flex;align-items:center;outline: none;border: none;background: transparent;color: #49586d;cursor: pointer;" class="expandDetailt" id="storeId">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-layout-sidebar-right-expand" width="18"
+                    height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                    <path d="M15 4v16"></path>
+                    <path d="M10 10l-2 2l2 2"></path>
+                  </svg>
+                </button>
+                <button 
+                  style="margin-right:2px;padding:2px;height:100%;display:flex;align-items:center;outline: none;border: none;background: transparent;color: #49586d;cursor: pointer;"  class="editDetails" id="storeI"d>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="18"
+                    height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                    <path d="M16 5l3 3"></path>
+                  </svg>
+                </button>
+              </div>
             </div>
-            <div class="store_details">
-              <div>Extesion :</div>
-              <div>&nbsp;889/9000/875</div>
-            </div>
-            <div class="store_details">
-              <div>Collection Area :</div>
-              <div>&nbsp;Western Cape > Kuilsriver</div>
-            </div>
-            <div class="store_details">
-              <div>Delivery Time :</div>
-              <div>&nbsp;45 minutes</div>
-            </div>
-            <div class="store_details">
-              <div>Collection Time :</div>
-              <div>&nbsp;15 minutes</div>
-            </div>
-            <div class="list_options">
-              <button class="status_btn">Online</button>
-              <button>Edit</button>
-              <button>View</button>
-            </div>
-          </div>
-          <div class="storeList">
-            <div class="store_details">
-              <div>Restaurant :</div>
-              <div>&nbsp;Debonairs Pizza Zevenwatch (Halaal)</div>
-            </div>
-            <div class="store_details">
-              <div>Extesion :</div>
-              <div>&nbsp;889/9000/875</div>
-            </div>
-            <div class="store_details">
-              <div>Collection Area :</div>
-              <div>&nbsp;Western Cape > Kuilsriver</div>
-            </div>
-            <div class="store_details">
-              <div>Delivery Time :</div>
-              <div>&nbsp;45 minutes</div>
-            </div>
-            <div class="store_details">
-              <div>Collection Time :</div>
-              <div>&nbsp;15 minutes</div>
-            </div>
-            <div class="list_options">
-              <button class="status_btn">Online</button>
-              <button>Edit</button>
-              <button>View</button>
-            </div>
-          </div>
+          </div> -->
         </div>
 
-
-        <!--========== Pagenation ==================-->
-        <div id="collectionListPagenation">
-          <button id="collectionPrev">Prev</button>
-          <button id="collectionPrev">Next</button>
-        </div>
       </div>
       <!---============= Tab One ===================-->
+
+      <!---============= Tab Two ===================-->
+      <div id="tabTwo" class="tab"></div>
+      <!---============= Tab Two ===================-->
+
+      <!---============= Tab Three ===================-->
+      <div id="tabThree" class="tab"></div>
+      <!---============= Tab Three ===================-->
+
+      <!---============= Tab Four ===================-->
+      <div id="tabFour" class="tab"></div>
+      <!---============= Tab Four ===================-->
     </div>
   </main>
   <script src="./popup.js"></script>

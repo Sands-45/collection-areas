@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@200;300;400;500;600;700;800&family=Ubuntu:wght@300;400;500;700&display=swap');
 
 *,
 body,
@@ -6,7 +6,7 @@ html {
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Ubuntu", sans-serif;
 }
 
 body {
@@ -48,6 +48,7 @@ body {
   align-items: center;
   list-style: none;
   gap: 10px;
+  border-right:solid 1px #e2e8f0;
 }
 
 .side_nav button {
@@ -60,7 +61,7 @@ body {
   gap: 7px;
   font-size: 12px;
   font-weight: 800;
-  border-radius: 7px;
+  border-radius: 20px;
   background: var(--slate-50);
   border: solid 1px var(--slate-200);
   cursor: pointer;
@@ -76,12 +77,13 @@ body {
   height: 1.25rem;
   width: 1.25rem;
   stroke: var(--slate-800);
+  pointer-events: none;
 }
 
-.side_nav .active svg {
+.side_nav .active_tab_btn svg {
   stroke: var(--primary);
 }
-.side_nav .active {
+.side_nav .active_tab_btn {
   border-color: var(--primary);
 }
 
