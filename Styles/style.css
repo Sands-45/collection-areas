@@ -94,3 +94,28 @@ body {
   width: calc(100% - 4.5rem);
 }
 
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  ::-webkit-scrollbar {
+    width: 0.5vh;
+  }
+
+  ::-webkit-scrollbar-track {
+    background:#63626213;
+    border-radius:1vh;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background:#94a3b8;
+    border-radius:1vh;
+  }

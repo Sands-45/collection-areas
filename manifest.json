@@ -8,12 +8,6 @@
     "permissions": ["storage", "activeTab", "scripting", "alarms"],
     "default_icon": "location.png"
   },
-  "content_scripts": [
-    {
-      "matches": ["http://example.com"],
-      "js": ["./contentScript.js"]
-    }
-  ],
   "background": {
     "service_worker": "background.js"
   }

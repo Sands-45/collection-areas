@@ -56,11 +56,12 @@
       <!---============= Tab One ===================-->
       <div id="tabOne" class="tab">
         <h1
-          style="text-align: center;margin-top: 0.85rem;margin-bottom: 1.5rem;font-weight:600;font-size: 2.5rem;color:#1e293b;">
+          style="text-align: center;margin-top: 0.85rem;margin-bottom: 1.5rem;font-weight:600;font-size: 2.5rem;color:#475569;">
           Quick Search</h1>
         <div class="collectionSearchBar">
           <label for="searchRest">
-            <input type="search" name="searchRest" id="searchRest" placeholder="Type here ..." />
+            <input type="search" name="searchRest" id="searchRest" placeholder="Type here ..."
+              style="padding-right:2rem;" />
           </label>
           <button id="newStore">Add New</button>
         </div>
@@ -68,54 +69,79 @@
         <!---=========== Searched Results ==========================-->
         <div id="searchedResults" style="gap:.5rem;">
           <img style="height: 8rem;margin-top:1.5rem;" src="./images/no_results.png" alt="no_results" id="noresImg">
-          <h2 style="font-size:0.9rem;font-weight:400;color:#64748b;font-style: italic;" id="placeholderText">To search using store's address just include <strong>#</strong>, like <strong>#main street.</strong></h2>
-          <!-- <div
-            style="width: 100%;height:6rem;background:#fff;border-radius: 10px;border: solid 1px #cbd5e1;padding:10px;display:flex;flex-direction:column;justify-content: space-between;"
-            data-storeId="090199" class="shop_results">
-            <div style="width: 100%;height:25%;font-size: 0.75rem;color:#49586d;">- Debonairs Pizza Zevenwatch &rarr; Western
-              Cape &rarr; Kuilsriver</div>
-            <div style="width: 100%;height:25%;font-size: 0.75rem;color:#49586d;">
-              - Extensions : 908 | 800</div>
-            <div style="width: 100%;height:25%;font-size: 0.75rem;color:#49586d;">
-              - Delivery 1 hour | Collection 20 mins</div>
-            <div
-              style="width: 100%;height:25%;font-size: 0.75rem;color:#475569;display:flex;justify-content: space-between;align-items: center;">
-              <div style="width: 100%;height:100%;display:flex;align-items:center;gap:2px;">
-                <div
-                  style="margin-right:5px;padding:1px 5px 1px 5px;height:100%;display:flex;align-items:center;background: rgba(204, 204, 204, 0.462);border-radius: 2px;border:solid 1px rgba(27, 26, 26, 0.341);">
-                  Delivery & Collection</div>
-                <div
-                  style="padding:1px 8px 1px 8px;height:100%;display:flex;align-items:center;gap:2px;;color:rgb(3, 116, 7);background: rgba(20, 185, 27, 0.1);border-left: 3px solid #14B91B;">
-                  Online</div>
-              </div>
-              
-              <div style="width: 100%;height:100%;display:flex;align-items:center;justify-content: end;gap:2px;">
-                <button onclick="()=>{alert('Hi')}" style="margin-right:2px;padding:2px;height:100%;display:flex;align-items:center;outline: none;border: none;background: transparent;color: #49586d;cursor: pointer;" class="expandDetailt" id="storeId">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-layout-sidebar-right-expand" width="18"
-                    height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <rect x="4" y="4" width="16" height="16" rx="2"></rect>
-                    <path d="M15 4v16"></path>
-                    <path d="M10 10l-2 2l2 2"></path>
-                  </svg>
-                </button>
-                <button 
-                  style="margin-right:2px;padding:2px;height:100%;display:flex;align-items:center;outline: none;border: none;background: transparent;color: #49586d;cursor: pointer;"  class="editDetails" id="storeI"d>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="18"
-                    height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
-                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
-                    <path d="M16 5l3 3"></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div> -->
+          <h2 style="font-size:0.9rem;font-weight:400;color:#64748b;font-style: italic;" id="placeholderText">To search
+            using store's address just include <strong>#</strong>, like <strong>#main street.</strong></h2>
         </div>
 
+        <!---=========== More Detail Overlay ==========================-->
+        <form id="restaurant_more_details_overlay"
+          style="position: absolute;top:0;width: 100%;height: 100%;background: #fff;padding:40px;transform: scale(0);transition: transform .3s ease-in-out;box-sizing: border-box;">
+          <button type="button" id="close_details_overlay_btn"
+            style="position:absolute;top:4px;left:4px;height:1.5rem;width:1.5rem;cursor: pointer;">&times;</button>
+          <div style="width:100%;display:flex;justify-content:space-between;align-items:center;">
+            <h1 id="store_name_heading" style="color:#1e293b;font-size;1.5rem;">Fishaways Ga-Rankuwa</h1>
+            <button type="submit" id="save_edits"
+              style="height:2rem;width:6rem;cursor: pointer;background: #219ebc;color: #fff;border:none; border-radius: 1rem;">Save
+              edit</button>
+          </div>
+          <div
+            style="margin-top:1.5rem;width:100%;height:26rem;background:#f1f5f9;border-radius: 8px;display:grid;grid-template-columns: repeat(2, minmax(0, 1fr));grid-template-rows: repeat(10, minmax(0, 1fr));grid-gap:8px;padding:5px;">
+            <!---=========== Trading Hours ============-->
+            <div
+              class="detailsCards" style="grid-column: span 1 / span 1;grid-row: 1/5;background:#fff;border-radius: 5px;padding: 8px;overflow:hidden">
+              <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Trading Hours</h1>
+              <textarea id="tradingHours" readonly="true"
+                style="margin: 2px 5px 10px 5px;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:1rem;display:grid;width: 96%;height:7.25rem;border:none;text-align:start;	resize: none;"
+                class="no-scrollbar::-webkit-scrollbar no-scrollbar">
+            </textarea>
+            </div>
+            <!---=========== Store Address ============-->
+            <div
+              class="detailsCards" style="grid-column: span 1 / span 1;grid-row: 1/4;background:#fff;border-radius: 5px;padding: 8px;overflow:hidden;">
+              <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Store Address</h1>
+              <textarea id="storeAddress" readonly="true"
+                style="margin: 10px 5px 10px 5px;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:4rem;border:none;text-align:start;	resize: none;"
+                class="no-scrollbar::-webkit-scrollbar no-scrollbar">
+                </textarea>
+            </div>
+            <!---===========  General Notes ============-->
+            <div
+              class="detailsCards" style="grid-column: span 1 / span 1;grid-row: 5/9;background:#fff;border-radius: 5px;padding: 8px;overflow:hidden;">
+              <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">General Notes</h1>
+              <textarea id="generalNotes" readonly="true"
+                style="margin: 10px 5px 10px 5px;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:7.25rem;border:none;text-align:start;	resize: none;"
+                class="no-scrollbar::-webkit-scrollbar no-scrollbar">
+                            </textarea>
+            </div>
+            <!---===========  Public address ============-->
+            <div
+              class="detailsCards" style="grid-column: span 1 / span 1;grid-row: 4/7;background:#fff;border-radius: 5px;padding: 8px;overflow:hidden;">
+              <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Public address</h1>
+              <textarea id="publicAddress" readonly="true"
+                style="margin: 10px 5px 10px 5px;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:4.5rem;border:none;text-align:start;	resize: none;"
+                class="no-scrollbar::-webkit-scrollbar no-scrollbar">
+                                        </textarea>
+            </div>
+            <!---===========  Out of Stock ============-->
+            <div
+              class="detailsCards" style="grid-column: span 1 / span 1;grid-row: 9/12;background:#fff;border-radius: 5px;padding: 8px;overflow:hidden;">
+              <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Out Of Stock</h1>
+              <textarea id="out_of_stock" readonly="true"
+                style="margin: 10px 5px 10px 5px;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:2.5rem;border:none;text-align:start;	resize: none;"
+                class="no-scrollbar::-webkit-scrollbar no-scrollbar">
+                                                    </textarea>
+            </div>
+            <!---===========  Delivery Polygon ============-->
+            <div
+              class="detailsCards" style="grid-column: span 1 / span 1;grid-row: 7/12;background:#fff;border-radius: 5px;padding: 8px;overflow:hidden;">
+              <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Delivery Polygon</h1>
+              <textarea id="delivery_polygon" readonly="true"
+                style="margin: 10px 5px 10px 5px;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:7.25rem;border:none;text-align:start;	resize: none;"
+                class="no-scrollbar::-webkit-scrollbar no-scrollbar">
+                                                                </textarea>
+            </div>
+          </div>
+        </form>
       </div>
       <!---============= Tab One ===================-->
 
