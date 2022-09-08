@@ -6,8 +6,16 @@
   "action": {
     "default_popup": "index.html",
     "permissions": ["storage", "activeTab", "scripting", "alarms"],
+    "host_permissions": ["<all_urls>"],
     "default_icon": "location.png"
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content-script.js"],
+      "run_at": "document_end"
+    }
+  ],
   "background": {
     "service_worker": "background.js"
   }

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="./Styles/style.css">
   <link rel="stylesheet" href="./Styles/collection.css">
   <link rel="stylesheet" href="./Styles/addresses.css">
@@ -69,74 +70,80 @@
         <!---=========== Searched Results ==========================-->
         <div id="searchedResults" style="gap:.5rem;">
           <img style="height: 8rem;margin-top:1.5rem;" src="./images/no_results.png" alt="no_results" id="noresImg">
-          <h2 style="font-size:0.9rem;font-weight:400;color:#64748b;font-style: italic;" id="placeholderText">To search
-            using store's address just include <strong>#</strong>, like <strong>#main street.</strong></h2>
+          <p style="font-size:0.9rem;font-weight:300;color:#64748b;font-style: italic;text-align: center;line-height: 1.25rem;"
+            id="placeholderText">To search
+            using store's address just include <strong>#</strong>, like <strong>#main street</strong></br>To search for
+            multiple strings or words seperate them with a <strong>comma</strong></p>
         </div>
 
         <!---=========== More Detail Overlay ==========================-->
         <form id="restaurant_more_details_overlay"
           style="position: absolute;top:0;width: 100%;height: 100%;background: #fff;padding:40px;transform: scale(0);transition: transform .3s ease-in-out;box-sizing: border-box;">
           <button type="button" id="close_details_overlay_btn"
-            style="position:absolute;top:4px;left:4px;height:1.5rem;width:1.5rem;cursor: pointer;">&times;</button>
+            style="position:absolute;top:4px;left:4px;height:1.5rem;width:1.5rem;cursor: pointer;background: #fca5a5;border-radius: .25rem;border:solid 1px #ccc;color:#fff;font-size: 1rem;">&times;</button>
+          <div id="updateLoading"
+            style="position: absolute;width:100%;height:100%;top:0px;right:0px;background:rgba(61, 52, 96, 0.551);transition:all .3s ease-in-out;display: none;">
+            <img src="./images/preloader.gif" alt="preloader" style="width: 100%;height:100%">
+          </div>
           <div style="width:100%;display:flex;justify-content:space-between;align-items:center;">
             <h1 id="store_name_heading" style="color:#1e293b;font-size;1.5rem;">Fishaways Ga-Rankuwa</h1>
             <button type="submit" id="save_edits"
               style="height:2rem;width:6rem;cursor: pointer;background: #219ebc;color: #fff;border:none; border-radius: 1rem;">Save
-              edit</button>
+              edits</button>
           </div>
           <div
-            style="margin-top:1.5rem;width:100%;height:26rem;background:#f1f5f9;border-radius: 8px;display:grid;grid-template-columns: repeat(2, minmax(0, 1fr));grid-template-rows: repeat(10, minmax(0, 1fr));grid-gap:8px;padding:5px;">
+            style="margin-top:1.5rem;width:100%;height:26rem;background:#fff;border-radius: 8px;display:grid;grid-template-columns: repeat(2, minmax(0, 1fr));grid-template-rows: repeat(10, minmax(0, 1fr));grid-gap:8px;">
             <!---=========== Trading Hours ============-->
-            <div
-              class="detailsCards" style="grid-column: span 1 / span 1;grid-row: 1/5;background:#fff;border-radius: 5px;padding: 8px;overflow:hidden">
+            <div class="detailsCards"
+              style="grid-column: span 1 / span 1;grid-row: 1/5;background:#f8fafc;border-radius: 5px;padding: 8px;overflow:hidden">
               <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Trading Hours</h1>
               <textarea id="tradingHours" readonly="true"
-                style="margin: 2px 5px 10px 5px;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:1rem;display:grid;width: 96%;height:7.25rem;border:none;text-align:start;	resize: none;"
+                style="margin: 2px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:1rem;display:grid;width: 96%;height:7.25rem;border:none;text-align:start;	resize: none;"
                 class="no-scrollbar::-webkit-scrollbar no-scrollbar">
             </textarea>
             </div>
             <!---=========== Store Address ============-->
-            <div
-              class="detailsCards" style="grid-column: span 1 / span 1;grid-row: 1/4;background:#fff;border-radius: 5px;padding: 8px;overflow:hidden;">
+            <div class="detailsCards"
+              style="grid-column: span 1 / span 1;grid-row: 1/4;background:#f8fafc;border-radius: 5px;padding: 8px;overflow:hidden;">
               <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Store Address</h1>
               <textarea id="storeAddress" readonly="true"
-                style="margin: 10px 5px 10px 5px;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:4rem;border:none;text-align:start;	resize: none;"
+                style="margin: 10px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:4rem;border:none;text-align:start;	resize: none;"
                 class="no-scrollbar::-webkit-scrollbar no-scrollbar">
                 </textarea>
             </div>
             <!---===========  General Notes ============-->
-            <div
-              class="detailsCards" style="grid-column: span 1 / span 1;grid-row: 5/9;background:#fff;border-radius: 5px;padding: 8px;overflow:hidden;">
+            <div class="detailsCards"
+              style="grid-column: span 1 / span 1;grid-row: 5/9;background:#f8fafc;border-radius: 5px;padding: 8px;overflow:hidden;">
               <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">General Notes</h1>
               <textarea id="generalNotes" readonly="true"
-                style="margin: 10px 5px 10px 5px;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:7.25rem;border:none;text-align:start;	resize: none;"
+                style="margin: 10px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:7.25rem;border:none;text-align:start;	resize: none;"
                 class="no-scrollbar::-webkit-scrollbar no-scrollbar">
                             </textarea>
             </div>
             <!---===========  Public address ============-->
-            <div
-              class="detailsCards" style="grid-column: span 1 / span 1;grid-row: 4/7;background:#fff;border-radius: 5px;padding: 8px;overflow:hidden;">
+            <div class="detailsCards"
+              style="grid-column: span 1 / span 1;grid-row: 4/7;background:#f8fafc;border-radius: 5px;padding: 8px;overflow:hidden;">
               <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Public address</h1>
               <textarea id="publicAddress" readonly="true"
-                style="margin: 10px 5px 10px 5px;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:4.5rem;border:none;text-align:start;	resize: none;"
+                style="margin: 10px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:4.5rem;border:none;text-align:start;	resize: none;"
                 class="no-scrollbar::-webkit-scrollbar no-scrollbar">
                                         </textarea>
             </div>
             <!---===========  Out of Stock ============-->
-            <div
-              class="detailsCards" style="grid-column: span 1 / span 1;grid-row: 9/12;background:#fff;border-radius: 5px;padding: 8px;overflow:hidden;">
+            <div class="detailsCards"
+              style="grid-column: span 1 / span 1;grid-row: 9/12;background:#f8fafc;border-radius: 5px;padding: 8px;overflow:hidden;">
               <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Out Of Stock</h1>
               <textarea id="out_of_stock" readonly="true"
-                style="margin: 10px 5px 10px 5px;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:2.5rem;border:none;text-align:start;	resize: none;"
+                style="margin: 10px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:2.5rem;border:none;text-align:start;	resize: none;"
                 class="no-scrollbar::-webkit-scrollbar no-scrollbar">
                                                     </textarea>
             </div>
             <!---===========  Delivery Polygon ============-->
-            <div
-              class="detailsCards" style="grid-column: span 1 / span 1;grid-row: 7/12;background:#fff;border-radius: 5px;padding: 8px;overflow:hidden;">
+            <div class="detailsCards"
+              style="grid-column: span 1 / span 1;grid-row: 7/12;background:#f8fafc;border-radius: 5px;padding: 8px;overflow:hidden;">
               <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Delivery Polygon</h1>
               <textarea id="delivery_polygon" readonly="true"
-                style="margin: 10px 5px 10px 5px;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:7.25rem;border:none;text-align:start;	resize: none;"
+                style="margin: 10px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:7.25rem;border:none;text-align:start;	resize: none;"
                 class="no-scrollbar::-webkit-scrollbar no-scrollbar">
                                                                 </textarea>
             </div>

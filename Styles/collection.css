@@ -13,11 +13,12 @@
   height: 100%;
   padding-top: 1.5rem;
   position: relative;
+  background:#f8fafc;
 }
 
 .collectionSearchBar {
   height: 2.75rem;
-  width: 65%;
+  width: 87%;
   margin: 0.5rem auto;
   display: flex;
   justify-content: space-between;
@@ -90,9 +91,11 @@ textarea:read-only{
 }
 
 .detailsCards {
-  border: solid 1px var(--slate-50);
+  border: solid 1px #e2e8f0;
   transition: border 0.5s ease-in-out;
 }
 .detailsCards:hover {
   border: solid 1px var(--primary);
 }
+
+/* ============Yumbi Active Listener ================ */
