@@ -105,13 +105,13 @@ if (savedData.length <= 0) {
 }
 
 //Fetch Data Every Minute
-// setInterval(() => {
-//   fetch(api_URL)
-//     .then((res) => res.json())
-//     .then((data) => {
-//       window.localStorage.setItem("savedData", JSON.stringify(data));
-//     });
-// }, 60000);
+setInterval(() => {
+  fetch(api_URL)
+    .then((res) => res.json())
+    .then((data) => {
+      window.localStorage.setItem("savedData", JSON.stringify(data));
+    });
+}, 60000);
 
 //Update Search Field Based On Local Value
 var searchValue = window.localStorage.getItem("searchValue")
@@ -296,23 +296,27 @@ document.addEventListener("click", (e) => {
 
     //Main Heading
     const heading = document.getElementById("store_name_heading");
-    const tradingHours = document.getElementById("tradingHours");
     const storeAddress = document.getElementById("storeAddress");
     const generalNotes = document.getElementById("generalNotes");
     const publicAddress = document.getElementById("publicAddress");
     const out_of_stock = document.getElementById("out_of_stock");
     const delivery_polygon = document.getElementById("delivery_polygon");
+    const extensions = document.getElementById("extensions");
+    const delivery = document.getElementById("delivery");
+    const collection = document.getElementById("collection");
+    const online_status = document.getElementById("online_status");
 
     //Set Contents
     heading.innerText = storeRowData?.Restaurant;
-    tradingHours.value = `- ${storeRowData["Operating_Hours"]
-      ?.split(", ")
-      ?.join("\r\n- ")}`;
     storeAddress.value = storeRowData["Store_Address"];
     generalNotes.value = storeRowData["General_Notes"];
     publicAddress.value = storeRowData["Public_Address"];
     out_of_stock.value = storeRowData["Stock"];
     delivery_polygon.value = storeRowData["Delivery_Polygons"];
+    extensions.value = `Extension : ${storeRowData["Extensions"]}`;
+    delivery.value = `Delivery - ${storeRowData["Delivery_Time"]}`;
+    collection.value = `Collection - ${storeRowData["Collection_Time"]}`;
+    online_status.value = storeRowData["Status"];
   }
 });
 
@@ -356,24 +360,28 @@ document.addEventListener("click", (e) => {
 
     //Main Heading
     const heading = document.getElementById("store_name_heading");
-    const tradingHours = document.getElementById("tradingHours");
     const storeAddress = document.getElementById("storeAddress");
     const generalNotes = document.getElementById("generalNotes");
     const publicAddress = document.getElementById("publicAddress");
     const out_of_stock = document.getElementById("out_of_stock");
     const delivery_polygon = document.getElementById("delivery_polygon");
+    const extensions = document.getElementById("extensions");
+    const delivery = document.getElementById("delivery");
+    const collection = document.getElementById("collection");
+    const online_status = document.getElementById("online_status");
 
     //Set Contents
     heading.innerText = storeRowData?.Restaurant;
     if (storeRowData) {
-      tradingHours.value = `- ${storeRowData["Operating_Hours"]
-        ?.split(", ")
-        ?.join("\r\n- ")}`;
       storeAddress.value = storeRowData["Store_Address"];
       generalNotes.value = storeRowData["General_Notes"];
       publicAddress.value = storeRowData["Public_Address"];
       out_of_stock.value = storeRowData["Stock"];
       delivery_polygon.value = storeRowData["Delivery_Polygons"];
+      extensions.value = `Extension : ${storeRowData["Extensions"]}`;
+      delivery.value = `Delivery - ${storeRowData["Delivery_Time"]}`;
+      collection.value = `Collection - ${storeRowData["Collection_Time"]}`;
+      online_status.value = storeRowData["Status"];
     }
 
     //Change Editor Editable and Set A new data Object
@@ -382,10 +390,25 @@ document.addEventListener("click", (e) => {
       (editor) => {
         editor.readOnly = false;
         editor.addEventListener("input", () => {
-          editor.id == "tradingHours"
+          editor.id == "extensions"
             ? (editedDetails = {
                 ...editedDetails,
-                Operating_Hours: editor.value,
+                Extensions: editor.value,
+              })
+            : editor.id == "delivery"
+            ? (editedDetails = {
+                ...editedDetails,
+                Delivery_Time: editor.value,
+              })
+            : editor.id == "collection"
+            ? (editedDetails = {
+                ...editedDetails,
+                Collection_Time: editor.value,
+              })
+            : editor.id == "online_status"
+            ? (editedDetails = {
+                ...editedDetails,
+                Status: editor.value,
               })
             : editor.id == "storeAddress"
             ? (editedDetails = {

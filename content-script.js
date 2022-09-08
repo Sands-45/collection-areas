@@ -21,35 +21,26 @@ if (typeof init === "undefined") {
         });
     }
 
-    //Fetch Data Every Minute
-    // setInterval(() => {
-    //   fetch(api_URL)
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       window.localStorage.setItem(
-    //         "yumbi_active_listener_data",
-    //         JSON.stringify(data)
-    //       );
-    //     });
-    // }, 1200000);
+    //Fetch Data Every Minutes
+    setInterval(() => {
+      fetch(api_URL)
+        .then((res) => res.json())
+        .then((data) => {
+          window.localStorage.setItem(
+            "yumbi_active_listener_data",
+            JSON.stringify(data)
+          );
+        });
+    }, 60000);
 
     //Get The Store Id
-    var storeID = window.location.search?.split("&")[0]?.includes("crmStoreId")
-      ? window.location.search?.split("&")[0]?.split("=")[1]
+    var storeID = window.location.href?.match(
+      /(?<=crmStoreId=\s*).*?(?=\s*&)/gs
+    )
+      ? window.location.href?.match(/(?<=crmStoreId=\s*).*?(?=\s*&)/gs)
       : window.location.href?.split("/")[3]?.includes("restaurant")
       ? window.location.href?.split("/")[4]
-      : "";
-
-    window.addEventListener("load", (event) => {
-      console.log("kkkkk");
-      if (!storeID) {
-        storeID = window.location.search?.split("&")[0]?.includes("crmStoreId")
-          ? window.location.search?.split("&")[0]?.split("=")[1]
-          : window.location.href?.split("/")[3]?.includes("restaurant")
-          ? window.location.href?.split("/")[4]
-          : "";
-      }
-    });
+      : window.location.href?.match(/(?<=crmStoreId=\s*).*?(?=\s*&)/gs);
 
     //Filter Data Based On Store Id
     const storeData = yumbi_active_listener_data?.data?.filter(
@@ -61,8 +52,8 @@ if (typeof init === "undefined") {
         e.target.id == "poiAutoCompleteControl" ||
         e.target.id == "streetAutoCompleteControl"
       ) {
-        let notify = document.getElementById("Yumbi_active_Listener_summary");
-        notify.innerText = e.target.value;
+        // let notify = document.getElementById("Yumbi_active_Listener_summary");
+        // notify.innerText = e.target.value;
       }
     });
 
@@ -92,6 +83,14 @@ if (typeof init === "undefined") {
         containerSummary.style.display = "flex";
         lessDetailsBtn.style.display = "none";
         detailsBtn.style.display = "flex";
+      } else if (!container?.contains(e.target)) {
+        container.style.height = "2rem";
+        container.style.width = "fit-content";
+        container.style.padding = "2px 5px 2px 10px";
+        moreDetails.style.display = "none";
+        containerSummary.style.display = "flex";
+        lessDetailsBtn.style.display = "none";
+        detailsBtn.style.display = "flex";
       }
     });
 
@@ -101,11 +100,7 @@ if (typeof init === "undefined") {
           style="position: fixed !important;z-index:1150;top: 10px !important;height:fit-content;width:100vw;display:flex;justify-content:center;pointer-events:none;">
           <div id="Yumbi_active_Listener"
             style="height: 2rem !important;width:fit-content !important;padding:2px 5px 2px 10px !important;border-radius:1rem !important;background:#b91409 !important;color:#fff !important;display: flex !important;justify-content: space-between !important;align-items: center !important;box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;font-size:.8rem !important;pointer-events: auto !important;transition: all .2s ease-in-out;position: relative;">
-            <span id="Yumbi_active_Listener_summary" style="color:#fff !important;">${
-              storeData[0]["Restaurant"]
-            } &rarr; ${storeData[0]["Region"]} &rarr; ${
-        storeData[0]["Area"]
-      } &nbsp; &nbsp; Ext : ${storeData[0]?.Extensions}</span>
+            <span id="Yumbi_active_Listener_summary" style="color:#fff !important;">${storeData[0]["Restaurant"]} &rarr; ${storeData[0]["Region"]} &rarr; ${storeData[0]["Area"]} &nbsp; &nbsp; Ext : ${storeData[0]?.Extensions}</span>
             <button id="yumbiObserver_more_details" type="button"
               style="height: 1.5rem;width:1.5rem;margin-left: .5rem;border-radius: 1rem;border: solid 1px #ccc;color:#b91409 !important;background:#fff !important;display: flex;justify-content: center;align-items: center;padding-top: .25rem;cursor: pointer;">
               <svg style="pointer-events: none;" xmlns="http://www.w3.org/2000/svg"
@@ -128,28 +123,34 @@ if (typeof init === "undefined") {
             <div
             id="Yumbi_active_Listener_Full"
               style="width:100%;height:100%;background:#fff;border-radius: 10px;display:none;grid-template-columns: repeat(2, minmax(0, 1fr));grid-template-rows: repeat(10, minmax(0, 1fr));grid-gap:8px;padding: 10px;overflow: hidden;">
-              <!---=========== Trading Hours ============-->
-              <div class="detailsCards"
-                style="grid-column: span 1 / span 1;grid-row: 1/5;background:#f8fafc;border-radius: 5px;padding: 8px;overflow:hidden">
-                <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Trading Hours</h1>
-                <div
-                  style="margin: 2px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:1rem;display:grid;width: 96%;height:7.25rem;border:none;text-align:start;	resize: none;"
-                  class="no-scrollbar::-webkit-scrollbar no-scrollbar">${storeData[0][
-                    "Operating_Hours"
-                  ]
-                    ?.split(", ")
-                    ?.join("\r\n- ")}
-                        </div>
-              </div>
+              <!---=========== Store Details Hours ============-->
+               <div class="detailsCards"
+              style="grid-column: span 1 / span 1;grid-row: 1/5;background:#f8fafc;border-radius: 5px;padding: 8px;overflow:hidden">
+              <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Store Details</h1>
+              <div 
+                style="margin: 8px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:1rem;display:grid;width: 96%;height:1.35rem;border:none;border-left:solid 2px #ccc;text-align:start;	resize: none;"
+                class="no-scrollbar::-webkit-scrollbar no-scrollbar">Extension : ${storeData[0]["Extensions"]}
+            </div>
+              <div 
+                style="margin: 2px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:1rem;display:grid;width: 96%;height:1.35rem;border:none;border-left:solid 2px #ccc;text-align:start;	resize: none;"
+                class="no-scrollbar::-webkit-scrollbar no-scrollbar">Collection - ${storeData[0]["Collection_Time"]}
+            </div>
+              <div 
+                style="margin: 2px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:1rem;display:grid;width: 96%;height:1.35rem;border:none;border-left:solid 2px #ccc;text-align:start;	resize: none;"
+                class="no-scrollbar::-webkit-scrollbar no-scrollbar">Delivery - ${storeData[0]["Delivery_Time"]}
+            </div>
+              <div 
+                style="margin: 2px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:1rem;display:grid;width: 96%;height:1.35rem;border:none;border-left:solid 2px #ccc;text-align:start;	resize: none;"
+                class="no-scrollbar::-webkit-scrollbar no-scrollbar">${storeData[0]["Status"]}
+            </div>
+            </div>
               <!---=========== Store Address ============-->
               <div class="detailsCards"
                 style="grid-column: span 1 / span 1;grid-row: 1/4;background:#f8fafc;border-radius: 5px;padding: 8px;overflow:hidden;">
                 <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Store Address</h1>
                 <div
                   style="margin: 10px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:4rem;border:none;text-align:start;	resize: none;"
-                  class="no-scrollbar::-webkit-scrollbar no-scrollbar"> ${
-                    storeData[0]["Store_Address"]
-                  }
+                  class="no-scrollbar::-webkit-scrollbar no-scrollbar"> ${storeData[0]["Store_Address"]}
                             </div>
               </div>
               <!---===========  General Notes ============-->
@@ -158,9 +159,7 @@ if (typeof init === "undefined") {
                 <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">General Notes</h1>
                 <div
                   style="margin: 10px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:7.25rem;border:none;text-align:start;	resize: none;"
-                  class="no-scrollbar::-webkit-scrollbar no-scrollbar">${
-                    storeData[0]["General_Notes"]
-                  }
+                  class="no-scrollbar::-webkit-scrollbar no-scrollbar">${storeData[0]["General_Notes"]}
                                         </div>
               </div>
               <!---===========  Public address ============-->
@@ -169,9 +168,7 @@ if (typeof init === "undefined") {
                 <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Public address</h1>
                 <div
                   style="margin: 10px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:4.5rem;border:none;text-align:start;	resize: none;"
-                  class="no-scrollbar::-webkit-scrollbar no-scrollbar">${
-                    storeData[0]["Public_Address"]
-                  }
+                  class="no-scrollbar::-webkit-scrollbar no-scrollbar">${storeData[0]["Public_Address"]}
                                                     </div>
               </div>
               <!---===========  Out of Stock ============-->
@@ -180,9 +177,7 @@ if (typeof init === "undefined") {
                 <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Out Of Stock</h1>
                 <div 
                   style="margin: 10px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:2.5rem;border:none;text-align:start;	resize: none;"
-                  class="no-scrollbar::-webkit-scrollbar no-scrollbar">${
-                    storeData[0]["Stock"]
-                  }
+                  class="no-scrollbar::-webkit-scrollbar no-scrollbar">${storeData[0]["Stock"]}
                                                                 </div>
               </div>
               <!---===========  Delivery Polygon ============-->
@@ -191,9 +186,7 @@ if (typeof init === "undefined") {
                 <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Delivery Polygon</h1>
                 <div 
                   style="margin: 10px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:7.25rem;border:none;text-align:start;	resize: none;"
-                  class="no-scrollbar::-webkit-scrollbar no-scrollbar">${
-                    storeData[0]["Delivery_Polygons"]
-                  }
+                  class="no-scrollbar::-webkit-scrollbar no-scrollbar">${storeData[0]["Delivery_Polygons"]}
                                                                             </div>
               </div>
             </div>
@@ -205,4 +198,9 @@ if (typeof init === "undefined") {
     }
   };
   init();
+  if (window.location.href?.includes("/callCenter-landing?token=")) {
+    setTimeout(() => {
+      init();
+    }, 10000);
+  }
 }
