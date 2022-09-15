@@ -98,4 +98,10 @@ textarea:read-only{
   border: solid 1px var(--primary);
 }
 
-/* ============Yumbi Active Listener ================ */
+#auth_pass{
+  outline:none;
+}
+#auth_pass:focus{
+  border:solid 1px#219ebc;
+  transition:all .2s ease;
+}

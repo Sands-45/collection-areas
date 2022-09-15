@@ -96,22 +96,16 @@ var savedData = window.localStorage.getItem("savedData")
   : [];
 
 //Fetch Data ============
-if (savedData.length <= 0) {
-  fetch(api_URL)
-    .then((res) => res.json())
-    .then((data) => {
-      window.localStorage.setItem("savedData", JSON.stringify(data));
-    });
-}
+chrome?.runtime?.onMessage?.addListener(function (request) {
+  window.localStorage.setItem("savedData", JSON.stringify(request));
+});
 
 //Fetch Data Every Minute
 setInterval(() => {
-  fetch(api_URL)
-    .then((res) => res.json())
-    .then((data) => {
-      window.localStorage.setItem("savedData", JSON.stringify(data));
-    });
-}, 60000);
+  chrome?.runtime?.onMessage?.addListener(function (request) {
+    window.localStorage.setItem("savedData", JSON.stringify(request));
+  });
+}, 30000);
 
 //Update Search Field Based On Local Value
 var searchValue = window.localStorage.getItem("searchValue")
@@ -328,18 +322,12 @@ document.addEventListener("click", (e) => {
     let details_container = document.getElementById(
       "restaurant_more_details_overlay"
     );
+    let auth_container = document.getElementById("auth_pass_overlay");
     let closeModal_Btn = document.getElementById("close_details_overlay_btn");
     //Open Overlay
-    details_container.style.transform = "scale(1)";
-    document.getElementById("save_edits").style.display = "";
+    auth_container.style.transform = "scale(1)";
     closeModal_Btn.addEventListener("click", () => {
       details_container.style.transform = "scale(0)";
-      Array.prototype.forEach.call(
-        document.getElementsByTagName("textarea"),
-        (editor) => {
-          editor.readOnly = false;
-        }
-      );
     });
     //Close Overlay
     closeModal_Btn.addEventListener("click", () => {
@@ -388,7 +376,6 @@ document.addEventListener("click", (e) => {
     Array.prototype.forEach.call(
       document.getElementsByTagName("textarea"),
       (editor) => {
-        editor.readOnly = false;
         editor.addEventListener("input", () => {
           editor.id == "extensions"
             ? (editedDetails = {
@@ -506,4 +493,41 @@ detailsForm.addEventListener("submit", (e) => {
         }
       );
     });
+});
+
+//Close password modal on btn On click
+let auth_container = document.getElementById("auth_pass_overlay");
+let close_password_overlay_btn = document.getElementById(
+  "close_password_overlay_btn"
+);
+let details_container = document.getElementById(
+  "restaurant_more_details_overlay"
+);
+close_password_overlay_btn.addEventListener("click", () => {
+  auth_container.style.transform = "scale(0)";
+  document.getElementById("auth_pass").value = "";
+  document.getElementById("wrong_auth").style.display = "none";
+  document.getElementById("auth_pass").style.border = "solid 1px #219ebc";
+});
+//Close And Auntheticate
+document.getElementById("auth_edition").addEventListener("submit", (e) => {
+  e.preventDefault();
+  let pass = document.getElementById("auth_pass").value;
+  if (pass == Number(savedData.auth) * 2) {
+    document.getElementById("auth_pass").style.border = "solid 1px #219ebc";
+    document.getElementById("wrong_auth").style.display = "none";
+    auth_container.style.transform = "scale(0)";
+    details_container.style.transform = "scale(1)";
+    document.getElementById("save_edits").style.display = "";
+    Array.prototype.forEach.call(
+      document.getElementsByTagName("textarea"),
+      (editor) => {
+        editor.readOnly = false;
+      }
+    );
+    document.getElementById("auth_pass").value = "";
+  } else {
+    document.getElementById("wrong_auth").style.display = "";
+    document.getElementById("auth_pass").style.border = "solid 1px red";
+  }
 });
