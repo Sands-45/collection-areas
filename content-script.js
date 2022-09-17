@@ -34,7 +34,7 @@ if (typeof init === "undefined") {
       });
   }, 30000);
 
-  const init = (storeID) => {
+  const init = (optionalParam) => {
     //Get The Store Id
     var storeID = window.location.href?.match(
       /(?<=crmStoreId=\s*).*?(?=\s*&)/gs
@@ -100,17 +100,66 @@ if (typeof init === "undefined") {
       }
     });
 
+    var offlineStatus = "Online";
+    if (
+      document.getElementById("offline-label")?.style.display == "" ||
+      document.getElementById("offline-label")?.style.display == "block"
+    ) {
+      offlineStatus = "Offline";
+    }
+
+    //Add Event Listener for change in Address And Restricted Based on Selected Store
+    // if (storeData?.length >= 1) {
+    //   fetch(
+    //     `https://script.google.com/macros/s/AKfycbyy5kiu5noEB5pekOQaOyULcc_hsqt16dTDGlJ-xLGhA93bzOddCE2RE3pBcYhVdX0exw/exec?storeName=${storeData[0].Restaurant}`
+    //   )
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //       window.localStorage.setItem("addresses", JSON.stringify(data));
+    //     });
+    // }
+
+    // document.addEventListener("input", (e) => {
+    //   if (
+    //     e.target.id == "streetAutoCompleteControl" ||
+    //     e.target.id == "poiAutoCompleteControl"
+    //   )
+    //     if (e.target.value.length >= 4) {
+    //       //let savedAddresses = window.localStorage.getItem("addresses");
+    //       // savedAddresses &&
+    //       //   console.log(
+    //       //     JSON.parse(savedAddresses)?.data?.filter((data) =>
+    //       //       data["Address"]
+    //       //         ?.toLowerCase()
+    //       //         ?.replace(/\s/gi, "")
+    //       //         ?.includes(e.target.value?.toLowerCase()?.replace(/\s/gi, ""))
+    //       //     )
+    //       //   );
+    //       "Grootvlei"
+    //         ?.toLowerCase()
+    //         ?.replace(/\s/gi, "")
+    //         ?.includes(e.target.value?.toLowerCase()?.replace(/\s/gi, ""));
+    //     }
+    // });
+
+    //Test Restrict Grootvlei
+    document
+      .getElementById("UserAddresses_chosen")
+      .firstChild?.textContent?.toLowerCase()
+      ?.replace(/\s/gi, "")
+      ?.toLowerCase()
+      ?.replace(/\s/gi, "")
+      ?.includes("Grootvlei"?.toLowerCase()?.replace(/\s/gi, ""))
+      ? (document.getElementById("new-order-btn").disabled = true)
+      : "";
+
     if (storeID && storeData?.length >= 1) {
       const injectElement = `
 	  <div id="yumbi_container"
           style="position: fixed !important;z-index:1150;top: 10px !important;height:fit-content;width:100vw;display:flex;justify-content:center;pointer-events:none;">
           <div style="height: 2rem;width:5rem;background-color: ${
-            storeData[0]["Status"]?.toLowerCase() == "online"
-              ? "#16a34a"
-              : "#dc2626"
-          };color:#fff;border-radius: 2rem;margin-right:.5rem;display:flex;justify-content:center;align-items: center;">${
-        storeData[0]["Status"]
-      }</div>
+            offlineStatus?.toLowerCase() == "online" ? "#16a34a" : "#dc2626"
+          };font-size:.8rem !important;letter-spacing:.1rem !important;color:#fff;border-radius: 2rem;margin-right:.5rem;display:flex;justify-content:center;align-items: center;">${offlineStatus}</div>
           <div id="Yumbi_active_Listener"
             style="height: 2rem !important;width:fit-content !important;padding:2px 5px 2px 10px !important;border-radius:1rem !important;background:#b91409 !important;color:#fff !important;display: flex !important;justify-content: space-between !important;align-items: center !important;box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;font-size:.8rem !important;pointer-events: auto !important;transition: all .2s ease-in-out;position: relative;">
             <span id="Yumbi_active_Listener_summary" style="color:#fff !important;">${
@@ -145,7 +194,7 @@ if (typeof init === "undefined") {
               <!---=========== Store Details Hours ============-->
                <div class="detailsCards"
               style="grid-column: span 1 / span 1;grid-row: 1/5;background:#f8fafc;border-radius: 5px;padding: 8px;overflow:hidden">
-              <h1 style="font-size: .8rem;font-weight: 500;color: #219ebc;">Store Details</h1>
+              <h1 style="font-size: .8rem !important;font-weight: 500;color: #219ebc;">Store Details</h1>
               <div 
                 style="margin: 8px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:1rem;display:grid;width: 96%;height:1.35rem;border:none;border-left:solid 2px #ccc;text-align:start;	resize: none;"
                 class="no-scrollbar::-webkit-scrollbar no-scrollbar">Extension : ${
@@ -237,9 +286,30 @@ if (typeof init === "undefined") {
       document.body.insertAdjacentHTML("beforeend", injectElement);
     }
   };
-  init();
-  if (window.location.href?.toLowerCase()?.includes("/callcenter-landing?token=")) {
+  setTimeout(() => {
+    init();
+  }, 1000);
+
+  //Listen For Store Change and Update Offline Status
+  document.body.addEventListener("click", (e) => {
+    if (
+      document.getElementById("Stores_chosen")?.contains(e.target) ||
+      document.getElementById("UserAddresses")?.contains(e.target) ||
+      document.getElementById("IsCollec")?.contains(e.target) ||
+      document.getElementById("IsDelivery")?.contains(e.target)
+    ) {
+      setTimeout(() => {
+        document.getElementById("yumbi_container")?.remove();
+        init();
+      }, 1000);
+    }
+  });
+
+  if (
+    window.location.href?.toLowerCase()?.includes("/callcenter-landing?token=")
+  ) {
     setTimeout(() => {
+      document.getElementById("yumbi_container")?.remove();
       init();
     }, 10000);
   }
