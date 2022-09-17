@@ -2,37 +2,38 @@ if (typeof init === "undefined") {
   //Fetch Data From Backend =======
   const api_URL =
     "https://script.google.com/macros/s/AKfycbyLIdGDTHE1vZlCHkKhU5G7eT4WhpqMM6tnFgObuPDDXZja_h946mwWpI9kpgIGz1XsLA/exec";
+  const api_URL2 =
+    "https://script.google.com/macros/s/AKfycbwzmhBRJ_36A5SZyCNkY7gU7zkGGgD2xXWoBzaz7-KI1gykdR_d4Ag4hnsEIvLzB7_ERQ/exec";
   var yumbi_active_listener_data = window.localStorage.getItem(
     "yumbi_active_listener_data"
   )
     ? JSON.parse(window.localStorage.getItem("yumbi_active_listener_data"))
     : [];
+  var restricted_areas_data = window.localStorage.getItem(
+    "restricted_areas_data"
+  )
+    ? JSON.parse(window.localStorage.getItem("restricted_areas_data"))
+    : [];
 
   //Fetch Data ============
-  if (yumbi_active_listener_data.length <= 0) {
-    fetch(api_URL)
-      .then((res) => res.json())
-      .then((data) => {
-        window.localStorage.setItem(
-          "yumbi_active_listener_data",
-          JSON.stringify(data)
-        );
-        chrome.runtime.sendMessage(yumbi_active_listener_data);
-      });
-  }
-
-  //Fetch Data Every Minutes
-  setInterval(() => {
-    fetch(api_URL)
-      .then((res) => res.json())
-      .then((data) => {
-        window.localStorage.setItem(
-          "yumbi_active_listener_data",
-          JSON.stringify(data)
-        );
-        chrome.runtime.sendMessage(yumbi_active_listener_data);
-      });
-  }, 30000);
+  fetch(api_URL)
+    .then((res) => res.json())
+    .then((data) => {
+      window.localStorage.setItem(
+        "yumbi_active_listener_data",
+        JSON.stringify(data)
+      );
+      chrome.runtime.sendMessage(yumbi_active_listener_data);
+    });
+  //Areas Data
+  fetch(api_URL2)
+    .then((res) => res.json())
+    .then((data) => {
+      window.localStorage.setItem(
+        "restricted_areas_data",
+        JSON.stringify(data)
+      );
+    });
 
   const init = (optionalParam) => {
     //Get The Store Id
@@ -109,47 +110,19 @@ if (typeof init === "undefined") {
     }
 
     //Add Event Listener for change in Address And Restricted Based on Selected Store
-    // if (storeData?.length >= 1) {
-    //   fetch(
-    //     `https://script.google.com/macros/s/AKfycbyy5kiu5noEB5pekOQaOyULcc_hsqt16dTDGlJ-xLGhA93bzOddCE2RE3pBcYhVdX0exw/exec?storeName=${storeData[0].Restaurant}`
-    //   )
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       window.localStorage.setItem("addresses", JSON.stringify(data));
-    //     });
-    // }
-
-    // document.addEventListener("input", (e) => {
-    //   if (
-    //     e.target.id == "streetAutoCompleteControl" ||
-    //     e.target.id == "poiAutoCompleteControl"
-    //   )
-    //     if (e.target.value.length >= 4) {
-    //       //let savedAddresses = window.localStorage.getItem("addresses");
-    //       // savedAddresses &&
-    //       //   console.log(
-    //       //     JSON.parse(savedAddresses)?.data?.filter((data) =>
-    //       //       data["Address"]
-    //       //         ?.toLowerCase()
-    //       //         ?.replace(/\s/gi, "")
-    //       //         ?.includes(e.target.value?.toLowerCase()?.replace(/\s/gi, ""))
-    //       //     )
-    //       //   );
-    //       "Grootvlei"
-    //         ?.toLowerCase()
-    //         ?.replace(/\s/gi, "")
-    //         ?.includes(e.target.value?.toLowerCase()?.replace(/\s/gi, ""));
-    //     }
-    // });
+    var areasRestricted = restricted_areas_data?.data
+      ?.filter((area) => area.Restaurant == storeData[0].Restaurant)
+      ?.map((data) => data.Area)
+      ?.join(",");
 
     //Test Restrict Grootvlei
     document
       .getElementById("UserAddresses_chosen")
-      .firstChild?.textContent?.toLowerCase()
+      ?.firstChild?.textContent?.toLowerCase()
       ?.replace(/\s/gi, "")
       ?.toLowerCase()
       ?.replace(/\s/gi, "")
-      ?.includes("Grootvlei"?.toLowerCase()?.replace(/\s/gi, ""))
+      ?.includes(areasRestricted?.toLowerCase()?.replace(/\s/gi, ""))
       ? (document.getElementById("new-order-btn").disabled = true)
       : "";
 
@@ -286,6 +259,7 @@ if (typeof init === "undefined") {
       document.body.insertAdjacentHTML("beforeend", injectElement);
     }
   };
+
   setTimeout(() => {
     init();
   }, 1000);
@@ -295,7 +269,7 @@ if (typeof init === "undefined") {
     if (
       document.getElementById("Stores_chosen")?.contains(e.target) ||
       document.getElementById("UserAddresses")?.contains(e.target) ||
-      document.getElementById("IsCollec")?.contains(e.target) ||
+      document.getElementById("IsCollect")?.contains(e.target) ||
       document.getElementById("IsDelivery")?.contains(e.target)
     ) {
       setTimeout(() => {
@@ -303,6 +277,18 @@ if (typeof init === "undefined") {
         init();
       }, 1000);
     }
+
+    Array.prototype.forEach.call(
+      document.getElementsByClassName("active-result"),
+      (elem) => {
+        if (elem?.contains(e.target)) {
+          setTimeout(() => {
+            document.getElementById("yumbi_container")?.remove();
+            init();
+          }, 1000);
+        }
+      }
+    );
   });
 
   if (
