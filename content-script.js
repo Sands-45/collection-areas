@@ -167,9 +167,10 @@ if (typeof init === "undefined") {
               Number(area["Time (24 Hours)"]) <
                 Number(new Date().getHours() + 1)
           )[0]["Notes"]
-        }">New Order</abbr>`;
+        }">Not Allowed</abbr>`;
       } else {
         newOrder_Btn.disabled = false;
+        newOrder_Btn.innerHTML = "New Order"
       }
     }
 
