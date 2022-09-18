@@ -3,7 +3,7 @@ if (typeof init === "undefined") {
   const api_URL =
     "https://script.google.com/macros/s/AKfycbyLIdGDTHE1vZlCHkKhU5G7eT4WhpqMM6tnFgObuPDDXZja_h946mwWpI9kpgIGz1XsLA/exec";
   const api_URL2 =
-    "https://script.google.com/macros/s/AKfycbwzmhBRJ_36A5SZyCNkY7gU7zkGGgD2xXWoBzaz7-KI1gykdR_d4Ag4hnsEIvLzB7_ERQ/exec";
+    "https://script.google.com/macros/s/AKfycbyUFShVzlQCASCF36XmGDAX2kuABTGlJn0p9P7F8z2TclnXi1iX2YstwY9EKm0eFyN_kA/exec";
   var yumbi_active_listener_data = window.localStorage.getItem(
     "yumbi_active_listener_data"
   )
@@ -16,26 +16,49 @@ if (typeof init === "undefined") {
     : [];
 
   //Fetch Data ============
-  fetch(api_URL)
-    .then((res) => res.json())
-    .then((data) => {
-      window.localStorage.setItem(
-        "yumbi_active_listener_data",
-        JSON.stringify(data)
-      );
-      chrome.runtime.sendMessage(yumbi_active_listener_data);
-    });
+  if (
+    new Date().getTime() -
+      Number(
+        window.localStorage.getItem("yumbi_active_listener_data_exp_date")
+      ) >
+      60000 ||
+    !window.localStorage.getItem("yumbi_active_listener_data_exp_date")
+  ) {
+    fetch(api_URL)
+      .then((res) => res.json())
+      .then((data) => {
+        window.localStorage.setItem(
+          "yumbi_active_listener_data",
+          JSON.stringify(data)
+        );
+        chrome.runtime.sendMessage(yumbi_active_listener_data);
+        window.localStorage.setItem(
+          "yumbi_active_listener_data_exp_date",
+          new Date().getTime()
+        );
+      });
+  }
   //Areas Data
-  fetch(api_URL2)
-    .then((res) => res.json())
-    .then((data) => {
-      window.localStorage.setItem(
-        "restricted_areas_data",
-        JSON.stringify(data)
-      );
-    });
-
-  const init = (optionalParam) => {
+  if (
+    new Date().getTime() -
+      Number(window.localStorage.getItem("restricted_areas_data_exp_date")) >
+      3600000 ||
+    !window.localStorage.getItem("restricted_areas_data_exp_date")
+  ) {
+    fetch(api_URL2)
+      .then((res) => res.json())
+      .then((data) => {
+        window.localStorage.setItem(
+          "restricted_areas_data",
+          JSON.stringify(data)
+        );
+        window.localStorage.setItem(
+          "restricted_areas_data_exp_date",
+          new Date().getTime()
+        );
+      });
+  }
+  const init = () => {
     //Get The Store Id
     var storeID = window.location.href?.match(
       /(?<=crmStoreId=\s*).*?(?=\s*&)/gs
@@ -110,21 +133,45 @@ if (typeof init === "undefined") {
     }
 
     //Add Event Listener for change in Address And Restricted Based on Selected Store
-    var areasRestricted = restricted_areas_data?.data
-      ?.filter((area) => area.Restaurant == storeData[0].Restaurant)
-      ?.map((data) => data.Area)
-      ?.join(",");
+    var areasRestricted = restricted_areas_data?.data?.filter(
+      (area) => area.Restaurant == storeData[0].Restaurant
+    );
 
-    //Test Restrict Grootvlei
-    document
-      .getElementById("UserAddresses_chosen")
-      ?.firstChild?.textContent?.toLowerCase()
-      ?.replace(/\s/gi, "")
-      ?.toLowerCase()
-      ?.replace(/\s/gi, "")
-      ?.includes(areasRestricted?.toLowerCase()?.replace(/\s/gi, ""))
-      ? (document.getElementById("new-order-btn").disabled = true)
-      : "";
+    let newOrder_Btn = document.getElementById("new-order-btn");
+    if (newOrder_Btn) {
+      if (
+        areasRestricted?.some(
+          (area) =>
+            document
+              .getElementById("UserAddresses_chosen")
+              ?.firstChild?.textContent?.toLowerCase()
+              ?.replace(/\s/gi, "")
+              ?.toLowerCase()
+              ?.replace(/\s/gi, "")
+              ?.includes(area.Area?.toLowerCase()?.replace(/\s/gi, "")) &&
+            Number(area["Time (24 Hours)"]) < Number(new Date().getHours() + 1)
+        ) &&
+        document.getElementById("IsDelivery")?.checked
+      ) {
+        newOrder_Btn.disabled = true;
+        newOrder_Btn.innerHTML = `<abbr title="${
+          areasRestricted?.filter(
+            (area) =>
+              document
+                .getElementById("UserAddresses_chosen")
+                ?.firstChild?.textContent?.toLowerCase()
+                ?.replace(/\s/gi, "")
+                ?.toLowerCase()
+                ?.replace(/\s/gi, "")
+                ?.includes(area.Area?.toLowerCase()?.replace(/\s/gi, "")) &&
+              Number(area["Time (24 Hours)"]) <
+                Number(new Date().getHours() + 1)
+          )[0]["Notes"]
+        }">New Order</abbr>`;
+      } else {
+        newOrder_Btn.disabled = false;
+      }
+    }
 
     if (storeID && storeData?.length >= 1) {
       const injectElement = `

@@ -100,8 +100,21 @@ chrome?.runtime?.onMessage?.addListener(function (request) {
   window.localStorage.setItem("savedData", JSON.stringify(request));
 });
 
+//Fetch Data ============
+if (savedData.length <= 0) {
+  fetch(api_URL)
+    .then((res) => res.json())
+    .then((data) => {
+      window.localStorage.setItem("savedData", JSON.stringify(data));
+    });
+}
+
 //Fetch Data Every Minute
-setInterval(() => {
+setInterval(() => {fetch(api_URL)
+  .then((res) => res.json())
+  .then((data) => {
+    window.localStorage.setItem("savedData", JSON.stringify(data));
+  });
   chrome?.runtime?.onMessage?.addListener(function (request) {
     window.localStorage.setItem("savedData", JSON.stringify(request));
   });
