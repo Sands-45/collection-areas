@@ -70,10 +70,42 @@ if (typeof init === "undefined") {
       ? window.location.href?.match(/(?<=crmStoreId=\s*).{4}/gs)[0]
       : "";
 
-    //Filter Data Based On Store Id
-    const storeData = yumbi_active_listener_data?.data?.filter(
-      (data) => data["Store_ID"] == storeID
-    );
+    //Filter Data Based On Store Id or Name
+    const storeData = () => {
+      if (
+        (storeID?.length > 3 &&
+          document
+            .getElementById("Stores_chosen")
+            ?.firstChild?.textContent?.toLowerCase()
+            ?.split("(")[0]
+            ?.replace(/\s|#/gi, "") == "selectanoption") ||
+        !document
+          .getElementById("Stores_chosen")
+          ?.firstChild?.textContent?.toLowerCase()
+          ?.split("(")[0]
+          ?.replace(/\s|#/gi, "")
+      ) {
+        return yumbi_active_listener_data?.data?.filter(
+          (data) => data["Store_ID"] == storeID
+        );
+      } else if (
+        document
+          .getElementById("Stores_chosen")
+          ?.firstChild?.textContent?.toLowerCase()
+          ?.split("(")[0]
+          ?.replace(/\s|#/gi, "") != "selectanoption"
+      ) {
+        return yumbi_active_listener_data?.data?.filter(
+          (data) =>
+            data["Restaurant"]?.replace(/\s/gi, "")?.toLowerCase() ==
+            document
+              .getElementById("Stores_chosen")
+              ?.firstChild?.textContent?.toLowerCase()
+              ?.split("(")[0]
+              ?.replace(/\s|#/gi, "")
+        );
+      }
+    };
 
     document.addEventListener("input", (e) => {
       if (
@@ -134,7 +166,7 @@ if (typeof init === "undefined") {
 
     //Add Event Listener for change in Address And Restricted Based on Selected Store
     var areasRestricted = restricted_areas_data?.data?.filter(
-      (area) => area.Restaurant == storeData[0].Restaurant
+      (area) => area.Restaurant == storeData()[0]?.Restaurant
     );
 
     let newOrder_Btn = document.getElementById("new-order-btn");
@@ -170,11 +202,11 @@ if (typeof init === "undefined") {
         }">Not Allowed</abbr>`;
       } else {
         newOrder_Btn.disabled = false;
-        newOrder_Btn.innerHTML = "New Order"
+        newOrder_Btn.innerHTML = "New Order";
       }
     }
 
-    if (storeID && storeData?.length >= 1) {
+    if (storeData()?.length >= 1) {
       const injectElement = `
 	  <div id="yumbi_container"
           style="position: fixed !important;z-index:1150;top: 10px !important;height:fit-content;width:100vw;display:flex;justify-content:center;pointer-events:none;">
@@ -184,11 +216,11 @@ if (typeof init === "undefined") {
           <div id="Yumbi_active_Listener"
             style="height: 2rem !important;width:fit-content !important;padding:2px 5px 2px 10px !important;border-radius:1rem !important;background:#b91409 !important;color:#fff !important;display: flex !important;justify-content: space-between !important;align-items: center !important;box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;font-size:.8rem !important;pointer-events: auto !important;transition: all .2s ease-in-out;position: relative;">
             <span id="Yumbi_active_Listener_summary" style="color:#fff !important;">${
-              storeData[0]["Restaurant"]
-            } &nbsp;(${storeData[0]["Halaal_Generic"]})  &nbsp; &rarr; ${
-        storeData[0]["Region"]
-      } &nbsp; &rarr;  &nbsp;${storeData[0]["Area"]} &nbsp; &nbsp; Ext : ${
-        storeData[0]?.Extensions
+              storeData()[0]["Restaurant"]
+            } &nbsp;(${storeData()[0]["Halaal_Generic"]})  &nbsp; &rarr; ${
+        storeData()[0]["Region"]
+      } &nbsp; &rarr;  &nbsp;${storeData()[0]["Area"]} &nbsp; &nbsp; Ext : ${
+        storeData()[0]?.Extensions
       }</span>
             <button id="yumbiObserver_more_details" type="button"
               style="height: 1.5rem;width:1.5rem;margin-left: .5rem;border-radius: 1rem;border: solid 1px #ccc;color:#b91409 !important;background:#fff !important;display: flex;justify-content: center;align-items: center;padding-top: .25rem;cursor: pointer;">
@@ -219,25 +251,25 @@ if (typeof init === "undefined") {
               <div 
                 style="margin: 8px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:1rem;display:grid;width: 96%;height:1.35rem;border:none;border-left:solid 2px #ccc;text-align:start;	resize: none;"
                 class="no-scrollbar::-webkit-scrollbar no-scrollbar">Extension : ${
-                  storeData[0]["Extensions"]
+                  storeData()[0]["Extensions"]
                 }
             </div>
               <div 
                 style="margin: 2px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:1rem;display:grid;width: 96%;height:1.35rem;border:none;border-left:solid 2px #ccc;text-align:start;	resize: none;"
                 class="no-scrollbar::-webkit-scrollbar no-scrollbar">Collection - ${
-                  storeData[0]["Collection_Time"]
+                  storeData()[0]["Collection_Time"]
                 }
             </div>
               <div 
                 style="margin: 2px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:1rem;display:grid;width: 96%;height:1.35rem;border:none;border-left:solid 2px #ccc;text-align:start;	resize: none;"
                 class="no-scrollbar::-webkit-scrollbar no-scrollbar">Delivery - ${
-                  storeData[0]["Delivery_Time"]
+                  storeData()[0]["Delivery_Time"]
                 }
             </div>
               <div 
                 style="margin: 2px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:1rem;display:grid;width: 96%;height:1.35rem;border:none;border-left:solid 2px #ccc;text-align:start;	resize: none;"
                 class="no-scrollbar::-webkit-scrollbar no-scrollbar">${
-                  storeData[0]["Status"]
+                  storeData()[0]["Status"]
                 }
             </div>
             </div>
@@ -248,11 +280,14 @@ if (typeof init === "undefined") {
                 <div
                   style="margin: 5px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:4.5rem;border:none;text-align:start;	resize: none;"
                   class="no-scrollbar::-webkit-scrollbar no-scrollbar"> ${
-                    storeData[0]["Store_Address"]
+                    storeData()[0]["Store_Address"]
                   }
                   <br/>
                   <br/>
-                  ${storeData[0]["Operating_Hours"]?.replace(/\,/gim, "<br/>")}
+                  ${storeData()[0]["Operating_Hours"]?.replace(
+                    /\,/gim,
+                    "<br/>"
+                  )}
                   </div>
               </div>
               <!---===========  General Notes ============-->
@@ -262,7 +297,7 @@ if (typeof init === "undefined") {
                 <div
                   style="margin: 10px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:7.25rem;border:none;text-align:start;	resize: none;"
                   class="no-scrollbar::-webkit-scrollbar no-scrollbar">${
-                    storeData[0]["General_Notes"]
+                    storeData()[0]["General_Notes"]
                   }
                                         </div>
               </div>
@@ -273,7 +308,7 @@ if (typeof init === "undefined") {
                 <div
                   style="margin: 10px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:4.5rem;border:none;text-align:start;	resize: none;"
                   class="no-scrollbar::-webkit-scrollbar no-scrollbar">${
-                    storeData[0]["Public_Address"]
+                    storeData()[0]["Public_Address"]
                   }
                                                     </div>
               </div>
@@ -284,7 +319,7 @@ if (typeof init === "undefined") {
                 <div 
                   style="margin: 10px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:2.5rem;border:none;text-align:start;	resize: none;"
                   class="no-scrollbar::-webkit-scrollbar no-scrollbar">${
-                    storeData[0]["Stock"]
+                    storeData()[0]["Stock"]
                   }
                                                                 </div>
               </div>
@@ -295,7 +330,7 @@ if (typeof init === "undefined") {
                 <div 
                   style="margin: 10px 5px 10px 5px;background:inherit;padding:5px;color:#1e293b;font-size:0.75rem !important;line-height:.9rem;display:grid;width: 96%;height:7.25rem;border:none;text-align:start;	resize: none;"
                   class="no-scrollbar::-webkit-scrollbar no-scrollbar">${
-                    storeData[0]["Delivery_Polygons"]
+                    storeData()[0]["Delivery_Polygons"]
                   }
                                                                             </div>
               </div>

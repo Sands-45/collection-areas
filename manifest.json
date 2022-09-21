@@ -1,7 +1,7 @@
 {
   "name": "Collection Areas",
   "description": "Sands Shortcut to find collection areas",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "manifest_version": 3,
   "action": {
     "default_popup": "index.html",
